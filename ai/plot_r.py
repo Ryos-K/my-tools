@@ -11,6 +11,7 @@ import math
 
 XLABEL = "episodes"
 YLABELS = "sum of rewards"
+LINESTYLES = ["-", "--", "-.", ":"]
 
 parser = argparse.ArgumentParser(description="Plot csv file")
 parser.add_argument("input_files", metavar="input_files", type=str, nargs="+")
@@ -22,6 +23,14 @@ args = parser.parse_args()
 input_files = args.input_files
 output_file = args.output_file[0] if args.output_file else "output.png"
 legends = args.legends if args.legends else None
+
+if len(input_files) != len(legends):
+    print("input_files and legends must be the same length")
+    exit(1)
+
+if len(input_files) > len(LINESTYLES):
+    print("input_files must be less than %d" % len(LINESTYLES))
+    exit(1)
 
 print("input_files: %s" % input_files)
 print("output_file: %s" % output_file)
@@ -43,7 +52,7 @@ x = np.arange(len(r_list[0]))
 ax = fig.add_subplot(1, 1, 1)
 for i in range(len(r_list)):
     if legends:
-        ax.plot(x, r_list[i], label=legends[i])
+        ax.plot(x, r_list[i], label=legends[i], linestyle=LINESTYLES[i])
     else:
         ax.plot(x, r_list[i])
 

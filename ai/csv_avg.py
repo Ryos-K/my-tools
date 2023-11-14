@@ -22,7 +22,7 @@ data_list = []
 
 for input_file in input_files:
     with open(input_file, "r") as f:
-        reader = csv.reader(f, delimiter=",")
+        reader = csv.reader(f, delimiter="\t")
         data = list(reader)
 
         data_list.append(data)
@@ -38,7 +38,7 @@ for ri in range(row_count):
     for ci in range(col_count):
         for di in range(len(data_list)):
             data_avg[ri][ci] += float(data_list[di][ri][ci])
-        data_avg[i][j] /= len(data_list)
+        data_avg[ri][ci] /= len(data_list)
 
 with open(output_file, "w") as f:
     writer = csv.writer(f, delimiter="\t")

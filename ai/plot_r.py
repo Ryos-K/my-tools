@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # plot_r.py : plot csv file
-# usage     : plot_r.py <input_files> -l legends [-o <output_file>]
+# usage     : plot_r.py <input_files> [-l legends] [-o <output_file>]
 
 import csv
 import argparse
@@ -21,6 +21,7 @@ args = parser.parse_args()
 
 input_files = args.input_files
 output_file = args.output_file[0] if args.output_file else "output.png"
+legends = args.legends if args.legends else None
 
 print("input_files: %s" % input_files)
 print("output_file: %s" % output_file)
@@ -41,11 +42,15 @@ x = np.arange(len(r_list[0]))
 
 ax = fig.add_subplot(1, 1, 1)
 for i in range(len(r_list)):
-    ax.plot(x, r_list[i], label=args.legends[i])
+    if legends:
+        ax.plot(x, r_list[i], label=legends[i])
+    else:
+        ax.plot(x, r_list[i])
 
 ax.set_xlabel(XLABEL)
 ax.set_ylabel(YLABELS)
-ax.legend()
+if legends:
+    ax.legend()
 
 plt.savefig(output_file)
 plt.show()

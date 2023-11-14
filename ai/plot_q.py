@@ -33,6 +33,7 @@ args = parser.parse_args()
 
 input_files = args.input_files
 output_file = args.output_file[0] if args.output_file else "output.png"
+legends = args.legends if args.legends else None
 
 print("input_files: %s" % input_files)
 print("output_file: %s" % output_file)
@@ -64,12 +65,16 @@ for i in range(9):
     ax = fig.add_subplot(3, 3, i + 1)
 
     for j in range(len(input_files)):
-        ax.plot(x, q_list[j][i], label=args.legends[j])
+        if legends:
+            ax.plot(x, q_list[j][i], label=legends[j])
+        else:
+            ax.plot(x, q_list[j][i])
 
     ax.set_ylim([-1.1, 1.1])
     ax.set_xlabel(XLABEL)
     ax.set_ylabel(YLABELS[i])
-    ax.legend()
+    if legends:
+        ax.legend()
 
 plt.tight_layout()
 plt.savefig(output_file)
